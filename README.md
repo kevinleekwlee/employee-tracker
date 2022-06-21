@@ -1,7 +1,7 @@
 # Employee Tracker
 
 ## Description
-This repository contains an application a simple Content Management System (CMS) that utilizes Inquirer, Node.js and MySQL. The user is able to view and manage the departments, roles, and employees in their company.  
+This repository contains an application a simple Content Management System (CMS) that utilizes Inquirer, Node.js and MySQL. The user is able to view and manage the departments, roles, and employees in their company. As a fun twist, the seed values are based on characters from the popular sitcom "The Office".  
 
 ## Usage
 
