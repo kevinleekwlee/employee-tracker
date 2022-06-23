@@ -17,7 +17,7 @@ Through the terminal, initialize the application using the following:
 npm start
 ```
 
-Video demo: 
+Video demo: https://drive.google.com/file/d/13NvWqiroWq2hC0He4_422ugWwnHZxgC4/view?usp=sharing
 
 Below is a screenshot of the website. 
 
