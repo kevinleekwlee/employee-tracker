@@ -6,7 +6,7 @@ SELECT
     e.last_name AS LastName,
     e.role_name AS Role,
     roles.salary AS Salary,
-    m.last_name AS Manager,
+    m.first_name AS Manager,
     department.name AS department
 
 -- Joining the employee table to itself for the manager value. 
