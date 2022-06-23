@@ -172,3 +172,75 @@ function add(){
             }
         });
 }
+
+function addDepartment(){
+    inquirer
+        .prompt([
+            {
+                type:"input",
+                name:"department",
+                message:"What is the new department you want to add?"
+            }
+            ]).then(function(answer){
+                db.query("INSERT INTO department VALUES (DEFAULT, ?)", [answer.department], function(err, results){
+                    if(err) throw err;
+                    console.log("-------------------------------")
+                    console.log("You have added a new department: " + answer.department)
+                    console.log("-------------------------------")
+                    start();
+                });
+            })
+}
+
+function addRole(){
+    inquirer
+        .prompt([
+            {
+                type:"input",
+                name:"title",
+                message:"What is the role title?"
+            },
+            {
+                type:"input",
+                name:"salary",
+                message:"What will the salary be?",
+                validate: value => {
+                    if (isNaN(value) === false) {
+                        return true;
+                    } else {
+                        console.log('Please enter a number.');
+                        return false;
+                    }
+                }
+            },
+            {
+                type:"input",
+                name:"department_id",
+                message:"What department id will they belong to?",
+                validate: value => {
+                    if (isNaN(value) === false) {
+                        return true;
+                    } else {
+                        console.log('Please enter a number.');
+                        return false;
+                    }
+                }
+            }
+        ]).then(function(answer){
+            db.query("INSERT INTO roles SET ?",
+            {
+                title: answer.title,
+                salary: answer.salary,
+                department_id: answer.department_id
+            },
+            function(err){
+                if(err) throw err;
+                console.log("-------------------------------")
+                console.log("You have added a new role: " + answer.title)
+                console.log("-------------------------------")
+                start();
+
+            }
+            )
+        })
+}

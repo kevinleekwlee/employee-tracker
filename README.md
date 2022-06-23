@@ -14,7 +14,7 @@ npm i
 Through the terminal, initialize the application using the following:
 
 ```
-node server.js
+npm start
 ```
 
 Video demo: 
