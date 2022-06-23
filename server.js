@@ -198,7 +198,7 @@ function addRole(){
             {
                 type:"input",
                 name:"title",
-                message:"What is the role title?"
+                message:"What is the new role title?"
             },
             {
                 type:"input",
@@ -208,7 +208,7 @@ function addRole(){
                     if(isNaN(value) === false){
                         return true;
                     }
-                    console.log("Must input a number.")
+                    console.log(" (Must input a number. Try again.)")
                     return false;
                 }
             },
@@ -220,7 +220,7 @@ function addRole(){
                     if(isNaN(value) === false){
                         return true;
                     }
-                    console.log("Must input a number.")
+                    console.log(" (Must input a number. Try again.)")
                     return false;
                 }
             }
@@ -241,4 +241,135 @@ function addRole(){
             }
             )
         })
+}
+
+function addEmployee(){
+    db.query("SELECT * FROM roles", function(err, results){
+        if(err) throw err;
+        inquirer
+            .prompt([
+                {
+                    type:"input",
+                    name:"firstName",
+                    message:"What is the new employee first name?"
+                },
+                {
+                    type:"input",
+                    name:"lastName",
+                    message:"What is the new employee last name?"
+                },
+                {
+                    type:"list",
+                    name:"role",
+                    message:"What is the role?",
+                    choices: function(){
+                        let choiceArr = [];
+                        for(i = 0; i < results.length; i++){
+                            choiceArr.push(results[i].title);
+                        }
+                        return choiceArr;
+                    }
+                },
+                {
+                    type:"input",
+                    name:"manager",
+                    message:"What manager id will they have?",
+                    default:"1",
+                    validate: function(value){
+                        if(isNaN(value) === false){
+                            return true;
+                        }
+                        console.log(" (Must input a number. Try again.)")
+                        return false;
+                    }
+                }
+            ]).then(function(answer){
+                db.query("INSERT INTO employee SET ?",
+                {
+                    first_name: answer.firstName,
+                    last_name: answer.lastName,
+                    role_name: answer.role,
+                    manager_id: answer.manager
+                },
+                function(err){
+                    if(err) throw err;
+                    console.log("-------------------------------")
+                    console.log("You have added a new employee: " + answer.firstName + " " + answer.lastName)
+                    console.log("-------------------------------")
+                    start();
+                }
+                )
+            })
+    })
+}
+
+// Prompt route for UPDATE.
+
+function updateEmployee(){
+    db.query("SELECT * FROM employee", function(err, results){
+        if(err) throw err;
+        inquirer
+            .prompt([
+                {
+                    type:"list",
+                    name:"choice",
+                    message:"Which employee do you want to update?",
+                    choices: function(){
+                        let choiceArr = [];
+                        for(i = 0; i < results.length; i++){
+                            choiceArr.push(results[i].last_name);
+                        }
+                        return choiceArr;
+                    }
+                }
+            ]).then(function(answer){
+                const saveName = answer.choice;
+
+                db.query("SELECT * FROM employee", function(err, results){
+                    if(err) throw err;
+                    inquirer
+                        .prompt([
+                            {
+                                type:"list",
+                                name:"role",
+                                message:"What is the updated title?",
+                                choices: function(){
+                                    let choiceArr = [];
+                                    for(i = 0; i < results.length; i++){
+                                        choiceArr.push(results[i].role_name);
+                                    }
+                                    return choiceArr;
+                                }
+                            },
+                            {
+                                type:"input",
+                                name:"manager",
+                                message:"What is the updated manager id?",
+                                default:"1",
+                                validate: function(value){
+                                    if(isNaN(value) === false){
+                                        return true;
+                                    }
+                                    console.log(" (Must input a number. Try again.)")
+                                    return false;
+                                }
+                            }
+                        ]).then(function(answer){
+                            db.query("UPDATE employee SET ? WHERE last_name = ?",
+                            [{
+                                role_name: answer.role,
+                                manager_id: answer.manager
+                            }, saveName],
+                            function(err){
+                                if(err) throw err;
+                                console.log("-------------------------------")
+                                console.log("The update has been made.")
+                                console.log("-------------------------------")
+                                start();
+                            }
+                            )
+                        })
+                })
+            })
+    })
 }
