@@ -24,3 +24,7 @@ LEFT JOIN roles
 
 LEFT JOIN department
     ON roles.department_id = department.id
+
+-- Sort all employees according to salary in descending order.
+
+ORDER BY roles.salary DESC;
