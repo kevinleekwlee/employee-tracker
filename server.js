@@ -204,26 +204,24 @@ function addRole(){
                 type:"input",
                 name:"salary",
                 message:"What will the salary be?",
-                validate: value => {
-                    if (isNaN(value) === false) {
+                validate: function(value){
+                    if(isNaN(value) === false){
                         return true;
-                    } else {
-                        console.log('Please enter a number.');
-                        return false;
                     }
+                    console.log("Must input a number.")
+                    return false;
                 }
             },
             {
                 type:"input",
                 name:"department_id",
                 message:"What department id will they belong to?",
-                validate: value => {
-                    if (isNaN(value) === false) {
+                validate: function(value){
+                    if(isNaN(value) === false){
                         return true;
-                    } else {
-                        console.log('Please enter a number.');
-                        return false;
                     }
+                    console.log("Must input a number.")
+                    return false;
                 }
             }
         ]).then(function(answer){
